@@ -22,5 +22,12 @@ window.APP_CONFIG = {
   webBuilder: {
     price: 49000,                // Giá tạo 1 website (49.000đ)
     durationSeconds: 60,         // Thời gian hoàn thành
+  },
+
+  // 4. CẤU HÌNH FANPAGE "ADORABLE DAUGHTER" (TỰ ĐĂNG BÀI & AFFILIATE)
+  facebook: {
+    pageId: "107743041749810",
+    pageName: "Adorable Daughter",
+    accessToken: "EAASW75msfq4BSy6tgtTOVVSCVXGqIq5sOcPW9djVx4H1gn3YS0cPh7jBn8a8QzYmT29vyu3V0rSqkvDHgVWyUYpxSyVdZApzZAb6G2pNeyofEUmqZCsP5ctkX3UrIoiAP6GDs4aeTtMXPzzSzNPkXvZCsedZBdeCVozwa7nzudI4JZBw6B0BoQwANdZC59XZAiwFbkquWWFus1l9c0hUxfY7onyaSZAn6ZAYoIWZCeYdsoZD"
   }
 };

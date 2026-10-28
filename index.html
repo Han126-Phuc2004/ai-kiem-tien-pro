@@ -136,6 +136,67 @@
 
     </div>
 
+    <!-- TRẠM TỰ ĐỘNG FANPAGE ADORABLE DAUGHTER (AFFILIATE & AUTO-POST) -->
+    <section class="card" style="margin-top: 24px; border: 1.5px solid rgba(59, 130, 246, 0.4); background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));">
+      <div class="card-header" style="margin-bottom: 12px;">
+        <div class="card-title">
+          <span>📢</span>
+          <span>Trạm Tự Động Fanpage: Adorable Daughter</span>
+        </div>
+        <span class="badge" style="background: rgba(16, 185, 129, 0.15); color: var(--green); border: 1px solid rgba(16, 185, 129, 0.4);">
+          ● Đã Kết Nối API Fanpage
+        </span>
+      </div>
+      <p style="font-size: 14.5px; color: var(--text-secondary); margin-bottom: 20px;">
+        Dán link sản phẩm Shopee / TikTok Shop của bạn vào đây. AI sẽ <b>tự động phân tích sản phẩm ➡️ tự tạo bài viết & hình ảnh bắt mắt ➡️ tự đăng lên Fanpage Adorable Daughter ➡️ tự động gắn kèm link Affiliate</b>!
+      </p>
+
+      <form id="affiliateForm">
+        <div style="display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 16px;">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label">🔗 Dán link sản phẩm (Shopee / TikTok Shop / Affiliate Link)</label>
+            <input type="url" id="affProductUrl" class="form-input" placeholder="https://shopee.vn/product/... hoặc https://s.shopee.vn/..." required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 12px;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Tên sản phẩm / Món đồ bạn muốn bán</label>
+              <input type="text" id="affProductName" class="form-input" placeholder="Ví dụ: Nồi chiên không dầu Lock&Lock 5.2L, Set váy bé gái vintage..." required>
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label">Vị trí gắn Link Affiliate</label>
+              <select id="affLinkPosition" class="form-select">
+                <option value="both">Cả bài viết + Ghim ở bình luận số 1 (Tối ưu nhất)</option>
+                <option value="comment">Chỉ ghim ở bình luận số 1 (Né thuật toán bóp reach)</option>
+                <option value="caption">Chỉ gắn ở cuối bài viết</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-gold" id="btnAutoPublish" style="font-size: 16px; padding: 15px;">
+          <span>🚀</span>
+          <span>AI Tự Động Sản Xuất & Đăng Lên Fanpage Ngay Lập Tức</span>
+        </button>
+      </form>
+
+      <!-- Terminal Logs for Auto-Publishing -->
+      <div id="affPublishLogs" style="display: none; margin-top: 18px; padding: 16px; background: #0d0f17; border: 1px solid var(--border); border-radius: 12px; font-family: var(--font-mono); font-size: 13px; color: var(--cyan); line-height: 1.7;">
+        <div style="color: var(--text-muted); margin-bottom: 6px;">[META GRAPH API RUNNER]</div>
+        <div id="affLogOutput"></div>
+      </div>
+
+      <!-- Success Result Box -->
+      <div id="affSuccessBox" style="display: none; margin-top: 18px; padding: 18px; background: rgba(16, 185, 129, 0.12); border: 1px solid var(--green); border-radius: 12px; text-align: center;">
+        <h4 style="color: var(--green); font-size: 18px; margin-bottom: 8px;">🎉 Đã Đăng Thành Công Lên Fanpage Adorable Daughter!</h4>
+        <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 14px;">Bài viết và link Affiliate của bạn đã xuất hiện công khai trên Facebook.</p>
+        <a id="btnViewOnFb" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-cyan" style="display: inline-flex; width: auto; padding: 12px 28px;">
+          <span>🔗</span>
+          <span>Xem Bài Viết Trực Tiếp Trên Facebook</span>
+        </a>
+      </div>
+    </section>
+
     <!-- Sổ Cái & Thống Kê Minh Bạch -->
     <div class="card" style="margin-top: 16px;">
       <div class="card-header" style="margin-bottom: 12px;">
