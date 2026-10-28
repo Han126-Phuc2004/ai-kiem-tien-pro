@@ -343,7 +343,6 @@
   const elAffiliateForm = document.getElementById("affiliateForm");
   const elAffProductUrl = document.getElementById("affProductUrl");
   const elAffProductName = document.getElementById("affProductName");
-  const elAffLinkPosition = document.getElementById("affLinkPosition");
   const elBtnAutoPublish = document.getElementById("btnAutoPublish");
   const elAffPublishLogs = document.getElementById("affPublishLogs");
   const elAffLogOutput = document.getElementById("affLogOutput");
@@ -362,11 +361,18 @@
     elAffiliateForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const productUrl = elAffProductUrl.value.trim();
+      let productUrl = elAffProductUrl.value.trim();
       const productName = elAffProductName.value.trim();
-      const linkPos = elAffLinkPosition.value;
 
-      if (!productUrl || !productName) return;
+      if (!productUrl || !productName) {
+        alert("Vui lòng điền link sản phẩm và tên sản phẩm!");
+        return;
+      }
+
+      // Tự động bổ sung https:// nếu người dùng quên gõ
+      if (!productUrl.startsWith("http://") && !productUrl.startsWith("https://")) {
+        productUrl = "https://" + productUrl;
+      }
 
       elBtnAutoPublish.disabled = true;
       elBtnAutoPublish.innerHTML = "<span>⏳</span><span>AI Đang Sản Xuất & Đăng Bài...</span>";
