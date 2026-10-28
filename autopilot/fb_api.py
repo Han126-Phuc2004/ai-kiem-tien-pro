@@ -82,3 +82,14 @@ def reply_comment(comment_id, message):
     }
     r = requests.post(url, data=payload)
     return r.json()
+
+def update_post(post_id, message):
+    """Cập nhật nội dung bài viết hoặc video"""
+    url = f"{BASE_URL}/{post_id}"
+    payload = {
+        "description": message,
+        "message": message,
+        "access_token": config.PAGE_ACCESS_TOKEN
+    }
+    r = requests.post(url, data=payload)
+    return r.json()

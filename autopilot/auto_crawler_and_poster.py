@@ -62,9 +62,15 @@ def process_and_publish(source_video_url, affiliate_link, product_name):
     )
     c_res = fb_api.comment_post(video_id, comment_msg)
     if "id" in c_res:
-        print(f"✅ ĐÃ GHIM LINK AFFILIATE THÀNH CÔNG!")
+        print(f"✅ ĐÃ GHIM LINK AFFILIATE THÀNH CÔNG VÀO BÌNH LUẬN ĐẦU TIÊN!")
     else:
-        print(f"⚠️ Chưa ghim được bình luận: {c_res}")
+        print(f"⚠️ Lưu ý: Quyền comment chưa bật (cần pages_manage_engagement). Tự động chèn link vào mô tả video để không bị mất link...")
+        fallback_caption = caption.replace(
+            "👉 Cả nhà bấm xem link mua chính hãng và nhận mã giảm giá ở phần BÌNH LUẬN ĐẦU TIÊN nhé! ❤️",
+            f"👉 Link mua chính hãng & săn voucher giảm giá độc quyền tại đây:\n🔗 {affiliate_link}"
+        )
+        u_res = fb_api.update_post(video_id, fallback_caption)
+        print(f"✅ ĐÃ CẬP NHẬT LINK AFFILIATE VÀO BÀI VIẾT VIDEO: {u_res}")
 
     # Dọn dẹp file tạm
     if os.path.exists(temp_video):

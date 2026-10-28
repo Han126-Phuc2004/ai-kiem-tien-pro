@@ -1,0 +1,44 @@
+name: Tự Động Tải Video & Đăng Lên Fanpage
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_video_url:
+        description: 'Link video (TikTok / Shopee / YouTube Shorts)'
+        required: true
+        type: string
+      affiliate_link:
+        description: 'Link Affiliate của bạn'
+        required: false
+        default: 'https://han126-phuc2004.github.io/ai-kiem-tien-pro/'
+        type: string
+      product_name:
+        description: 'Tên sản phẩm'
+        required: false
+        default: 'Món đồ gia dụng tiện ích'
+        type: string
+
+jobs:
+  download-and-post-video:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies & FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          python -m pip install --upgrade pip
+          pip install yt-dlp requests edge-tts
+
+      - name: Run Crawler & Video Poster
+        env:
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+        run: |
+          python autopilot/auto_crawler_and_poster.py "${{ github.event.inputs.source_video_url }}" "${{ github.event.inputs.affiliate_link }}" "${{ github.event.inputs.product_name }}"
