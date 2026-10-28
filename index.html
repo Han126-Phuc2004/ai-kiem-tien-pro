@@ -151,7 +151,7 @@
         Dán link sản phẩm Shopee / TikTok Shop của bạn vào đây. AI sẽ <b>tự động phân tích sản phẩm ➡️ tự tạo bài viết & hình ảnh bắt mắt ➡️ tự đăng lên Fanpage Adorable Daughter ➡️ tự động gắn kèm link Affiliate</b>!
       </p>
 
-      <form id="affiliateForm">
+      <form id="affiliateForm" novalidate>
         <div style="display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 16px;">
           <div class="form-group" style="margin-bottom: 0;">
             <label class="form-label">🔗 Dán link sản phẩm (Shopee / TikTok Shop / Affiliate Link)</label>
@@ -160,8 +160,8 @@
 
           <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 12px;">
             <div class="form-group" style="margin-bottom: 0;">
-              <label class="form-label">Tên sản phẩm / Món đồ bạn muốn bán</label>
-              <input type="text" id="affProductName" class="form-input" placeholder="Ví dụ: Nồi chiên không dầu Lock&Lock 5.2L, Set váy bé gái vintage..." required>
+              <label class="form-label">Tên sản phẩm (Tùy chọn - AI có thể tự đặt)</label>
+              <input type="text" id="affProductName" class="form-input" placeholder="Ví dụ: Nồi chiên không dầu Lock&Lock 5.2L, Set váy bé gái...">
             </div>
             <div class="form-group" style="margin-bottom: 0;">
               <label class="form-label">Quy tắc chuẩn MMO (Chống bóp reach)</label>
@@ -173,7 +173,7 @@
           </div>
         </div>
 
-        <button type="submit" class="btn btn-gold" id="btnAutoPublish" style="font-size: 16px; padding: 15px;">
+        <button type="button" class="btn btn-gold" id="btnAutoPublish" style="font-size: 16px; padding: 15px; cursor: pointer;">
           <span>🚀</span>
           <span>AI Tự Động Sản Xuất & Đăng Lên Fanpage Ngay Lập Tức</span>
         </button>
@@ -295,7 +295,7 @@
   </div>
 
   <!-- Config & App Scripts -->
-  <script src="config.js"></script>
-  <script src="app.js"></script>
+  <script src="config.js?v=2.2"></script>
+  <script src="app.js?v=2.2"></script>
 </body>
 </html>

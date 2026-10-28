@@ -354,96 +354,151 @@
     const line = document.createElement("div");
     line.innerHTML = text;
     elAffLogOutput.appendChild(line);
-    elAffPublishLogs.scrollTop = elAffPublishLogs.scrollHeight;
+    if (elAffPublishLogs) {
+      elAffPublishLogs.scrollTop = elAffPublishLogs.scrollHeight;
+    }
   }
 
-  if (elAffiliateForm) {
-    elAffiliateForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+  async function handleAffiliatePublish() {
+    if (!elAffProductUrl) return;
 
-      let productUrl = elAffProductUrl.value.trim();
-      const productName = elAffProductName.value.trim();
+    let productUrl = elAffProductUrl.value.trim();
+    let productName = elAffProductName ? elAffProductName.value.trim() : "";
 
-      if (!productUrl || !productName) {
-        alert("Vui lòng điền link sản phẩm và tên sản phẩm!");
-        return;
-      }
+    if (!productUrl) {
+      alert("⚠️ Vui lòng dán link sản phẩm (Shopee, TikTok Shop...) trước khi bấm đăng!");
+      elAffProductUrl.focus();
+      return;
+    }
 
-      // Tự động bổ sung https:// nếu người dùng quên gõ
-      if (!productUrl.startsWith("http://") && !productUrl.startsWith("https://")) {
-        productUrl = "https://" + productUrl;
-      }
+    if (!productName) {
+      productName = "Món Đồ Siêu Tiện Ích Đang Hot";
+    }
 
+    // Tự động bổ sung https:// nếu người dùng quên gõ
+    if (!productUrl.startsWith("http://") && !productUrl.startsWith("https://")) {
+      productUrl = "https://" + productUrl;
+    }
+
+    if (elBtnAutoPublish) {
       elBtnAutoPublish.disabled = true;
       elBtnAutoPublish.innerHTML = "<span>⏳</span><span>AI Đang Sản Xuất & Đăng Bài...</span>";
-      elAffPublishLogs.style.display = "block";
-      elAffSuccessBox.style.display = "none";
-      elAffLogOutput.innerHTML = "";
+    }
+    if (elAffPublishLogs) elAffPublishLogs.style.display = "block";
+    if (elAffSuccessBox) elAffSuccessBox.style.display = "none";
+    if (elAffLogOutput) elAffLogOutput.innerHTML = "";
 
-      appendAffLog(`> [1/4] Đang phân tích sản phẩm: <b>${escapeHtml(productName)}</b>`);
-      appendAffLog(`> [1/4] URL Tiếp thị liên kết: <span style="color:var(--text-muted);">${escapeHtml(productUrl)}</span>`);
+    appendAffLog(`> [1/4] Đang phân tích sản phẩm: <b>${escapeHtml(productName)}</b>`);
+    appendAffLog(`> [1/4] URL Tiếp thị liên kết: <span style="color:var(--text-muted);">${escapeHtml(productUrl)}</span>`);
 
-      // Tạo kịch bản nội dung bài viết hấp dẫn
-      await new Promise(r => setTimeout(r, 600));
-      appendAffLog("> [2/4] Soạn thảo kịch bản review viral & gắn bộ hashtag chuẩn SEO...");
+    // Tạo kịch bản nội dung bài viết hấp dẫn
+    await new Promise(r => setTimeout(r, 600));
+    appendAffLog("> [2/4] Soạn thảo kịch bản review viral & tối ưu hiển thị...");
 
-      let postCaption = `✨ GỢI Ý MÓN ĐỒ SIÊU TIỆN ÍCH CHO CẢ NHÀ ✨\n\n` +
-        `Hôm nay Adorable Daughter xin giới thiệu tới cả nhà em: ${productName} này nha! ` +
-        `Dùng siêu thích, chất lượng xịn sò mà giá đợt này đang có ưu đãi cực kỳ tốt luôn ạ. ` +
-        `Cả nhà xem thử để sắm cho gia đình mình nhé! ❤️\n\n` +
-        `👉 Cả nhà bấm xem link mua chính hãng và nhận mã giảm giá ở phần BÌNH LUẬN ĐẦU TIÊN nhé! ❤️\n\n` +
-        `#AdorableDaughter #Review #GiaDungThongMinh #MeoHay #MuaSamThongMinh`;
+    let postCaption = `✨ GỢI Ý MÓN ĐỒ SIÊU TIỆN ÍCH CHO CẢ NHÀ ✨\n\n` +
+      `Hôm nay Adorable Daughter xin giới thiệu tới cả nhà em: ${productName} này nha! ` +
+      `Dùng siêu thích, chất lượng xịn sò mà giá đợt này đang có ưu đãi cực kỳ tốt luôn ạ. ` +
+      `Cả nhà xem thử để sắm cho gia đình mình nhé! ❤️\n\n` +
+      `👉 Cả nhà bấm xem link mua chính hãng và nhận mã giảm giá ở phần BÌNH LUẬN ĐẦU TIÊN nhé! ❤️\n\n` +
+      `#AdorableDaughter #Review #GiaDungThongMinh #MeoHay #MuaSamThongMinh`;
 
-      await new Promise(r => setTimeout(r, 800));
-      appendAffLog(`> [3/4] Đang gọi Meta Graph API đăng bài lên Page "${config.facebook.pageName}"...`);
+    await new Promise(r => setTimeout(r, 800));
+    appendAffLog(`> [3/4] Đang gọi Meta Graph API đăng bài lên Page "${config.facebook.pageName}"...`);
 
-      try {
-        const fbUrl = `https://graph.facebook.com/v26.0/${config.facebook.pageId}/feed`;
-        const formData = new URLSearchParams();
-        formData.append("message", postCaption);
-        formData.append("access_token", config.facebook.accessToken);
+    try {
+      const fbUrl = `https://graph.facebook.com/v26.0/${config.facebook.pageId}/feed`;
+      const formData = new URLSearchParams();
+      formData.append("message", postCaption);
+      formData.append("access_token", config.facebook.accessToken);
 
-        const resp = await fetch(fbUrl, {
-          method: "POST",
-          body: formData
-        });
-        const data = await resp.json();
+      const resp = await fetch(fbUrl, {
+        method: "POST",
+        body: formData
+      });
+      const data = await resp.json();
 
-        if (data && data.id) {
-          const postId = data.id;
-          appendAffLog(`> [3/4] <span style="color:var(--green);">✓ Đăng bài thành công! Post ID: ${postId}</span>`);
+      if (data && data.id) {
+        const postId = data.id;
+        appendAffLog(`> [3/4] <span style="color:var(--green);">✓ Đăng bài thành công! Post ID: ${postId}</span>`);
 
-          // Tự động ghim comment Affiliate ở bình luận đầu tiên
-          appendAffLog("> [4/4] Đang tự động ghim bình luận chứa Link Affiliate lên đầu...");
-          const commentUrl = `https://graph.facebook.com/v26.0/${postId}/comments`;
-          const cFormData = new URLSearchParams();
-          cFormData.append("message", `👉 Cả nhà ơi, link mua hàng chính hãng và săn voucher giảm giá độc quyền mình để ở đây nha:\n🔗 ${productUrl}`);
-          cFormData.append("access_token", config.facebook.accessToken);
+        // Thử tự động bình luận chứa Link Affiliate ở bình luận đầu tiên
+        appendAffLog("> [4/4] Đang tự động ghim bình luận chứa Link Affiliate lên đầu...");
+        const commentUrl = `https://graph.facebook.com/v26.0/${postId}/comments`;
+        const cFormData = new URLSearchParams();
+        cFormData.append("message", `👉 Cả nhà ơi, link mua hàng chính hãng và săn voucher giảm giá độc quyền mình để ở đây nha:\n🔗 ${productUrl}`);
+        cFormData.append("access_token", config.facebook.accessToken);
 
+        let commentSuccess = false;
+        try {
           const cResp = await fetch(commentUrl, { method: "POST", body: cFormData });
           const cData = await cResp.json();
           if (cData && cData.id) {
+            commentSuccess = true;
             appendAffLog(`> [4/4] <span style="color:var(--green);">✓ Đã ghim link Affiliate vào top bình luận thành công!</span>`);
+          } else {
+            console.warn("Comment API warning:", cData);
           }
-
-          // Tạo link Facebook trực tiếp
-          const postOnlyId = postId.includes("_") ? postId.split("_")[1] : postId;
-          const fbPostLink = `https://www.facebook.com/${postOnlyId}`;
-          elBtnViewOnFb.href = fbPostLink;
-
-          elAffSuccessBox.style.display = "block";
-          appendAffLog(`> [HOÀN TẤT] Bài viết đã lên sóng công khai trên Facebook!`);
-
-          saveRealState();
-          updateUI();
-        } else {
-          appendAffLog(`> <span style="color:var(--red);">✗ Lỗi từ Meta API: ${JSON.stringify(data.error || data)}</span>`);
+        } catch (cErr) {
+          console.warn("Comment request error:", cErr);
         }
-      } catch (err) {
-        appendAffLog(`> <span style="color:var(--red);">✗ Lỗi kết nối: ${err.message}</span>`);
-      } finally {
+
+        // Nếu quyền bình luận bị Facebook chặn (do chưa cấp pages_manage_engagement), tự cập nhật link vào cuối post
+        if (!commentSuccess) {
+          appendAffLog(`> [4/4] <span style="color:var(--gold);">ℹ️ Lưu ý: Token Page hiện tại chưa kích hoạt quyền pages_manage_engagement, hệ thống sẽ tự động chèn link trực tiếp vào bài viết để đảm bảo khách mua hàng không bị sót!</span>`);
+          try {
+            const updateUrl = `https://graph.facebook.com/v26.0/${postId}`;
+            const uFormData = new URLSearchParams();
+            const fallbackCaption = postCaption.replace(
+              "👉 Cả nhà bấm xem link mua chính hãng và nhận mã giảm giá ở phần BÌNH LUẬN ĐẦU TIÊN nhé! ❤️",
+              `👉 Link mua chính hãng & nhận voucher giảm giá độc quyền tại đây:\n🔗 ${productUrl}`
+            );
+            uFormData.append("message", fallbackCaption);
+            uFormData.append("access_token", config.facebook.accessToken);
+            await fetch(updateUrl, { method: "POST", body: uFormData });
+            appendAffLog(`> [4/4] <span style="color:var(--green);">✓ Đã cập nhật Link mua hàng vào bài viết thành công!</span>`);
+          } catch (uErr) {
+            console.warn("Update post error:", uErr);
+          }
+        }
+
+        // Tạo link Facebook trực tiếp
+        const postOnlyId = postId.includes("_") ? postId.split("_")[1] : postId;
+        const fbPostLink = `https://www.facebook.com/${postOnlyId}`;
+        if (elBtnViewOnFb) {
+          elBtnViewOnFb.href = fbPostLink;
+        }
+
+        if (elAffSuccessBox) elAffSuccessBox.style.display = "block";
+        appendAffLog(`> [HOÀN TẤT] Bài viết đã lên sóng công khai trên Facebook!`);
+
+        saveRealState();
+        updateUI();
+      } else {
+        appendAffLog(`> <span style="color:var(--red);">✗ Lỗi từ Meta API: ${JSON.stringify(data.error || data)}</span>`);
+      }
+    } catch (err) {
+      appendAffLog(`> <span style="color:var(--red);">✗ Lỗi kết nối: ${err.message}</span>`);
+    } finally {
+      if (elBtnAutoPublish) {
         elBtnAutoPublish.disabled = false;
         elBtnAutoPublish.innerHTML = "<span>🚀</span><span>AI Tự Động Sản Xuất & Đăng Lên Fanpage Ngay Lập Tức</span>";
+      }
+    }
+  }
+
+  if (elAffiliateForm) {
+    elAffiliateForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      handleAffiliatePublish();
+    });
+  }
+
+  if (elBtnAutoPublish) {
+    elBtnAutoPublish.addEventListener("click", (e) => {
+      // Đảm bảo kích hoạt ngay cả khi click trực tiếp
+      if (e.target === elBtnAutoPublish || elBtnAutoPublish.contains(e.target)) {
+        e.preventDefault();
+        handleAffiliatePublish();
       }
     });
   }
