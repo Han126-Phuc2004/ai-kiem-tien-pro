@@ -125,26 +125,21 @@
     elChatMessages.appendChild(emptyNotice);
   }
 
-  // Sinh mã VietQR động theo Napas
-  function generateVietQrUrl(amount, syntax) {
-    const bank = config.bank;
-    return `https://img.vietqr.io/image/${bank.bankId}-${bank.accountNo}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(syntax)}&accountName=${encodeURIComponent(bank.accountName)}`;
-  }
-
   // ============================================================
-  // LOGIC THÁCH ĐỐ KÉT SẮT (SỐ THẬT)
+  // LOGIC THÁCH ĐỐ KÉT SẮT (SỐ THẬT & MÃ QR TRAN VAN PHUC)
   // ============================================================
   elBtnOpenHackModal.addEventListener("click", () => {
     state.activeHackCode = "HACK" + Math.floor(1000 + Math.random() * 9000);
     const amount = config.vault.pricePerAttempt;
 
-    elQrBankName.textContent = config.bank.bankId;
-    elQrAccountNo.textContent = config.bank.accountNo;
-    elQrAccountName.textContent = config.bank.accountName;
+    elQrBankName.textContent = config.bank.bankName || "MoMo (Napas 247)";
+    elQrAccountNo.textContent = config.bank.accountNo || "*******055";
+    elQrAccountName.textContent = config.bank.accountName || "TRAN VAN PHUC";
     elQrAmount.textContent = formatMoney(amount);
     elQrSyntax.textContent = state.activeHackCode;
 
-    elHackQrImg.src = generateVietQrUrl(amount, state.activeHackCode);
+    // Sử dụng trực tiếp ảnh QR thật của chủ tài khoản TRAN VAN PHUC
+    elHackQrImg.src = config.bank.qrImagePath || "qr-payment.png";
     elHackModal.style.display = "flex";
   });
 
