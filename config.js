@@ -1,25 +1,29 @@
 // ============================================================
-// CẤU HÌNH HỆ THỐNG - BẠN CHỈ CẦN SỬA THÔNG TIN Ở ĐÂY
+// CẤU HÌNH HỆ THỐNG - SỐ LIỆU THẬT 100%
 // ============================================================
 window.APP_CONFIG = {
-  // Thông tin ngân hàng nhận tiền thật của bạn (dùng để sinh mã VietQR tự động)
+  // 1. Thông tin ngân hàng nhận tiền thật của bạn
   bank: {
-    bankId: "ICB",               // Mã ngân hàng (ICB: Vietinbank, VCB: Vietcombank, MB: MBBank, TCB: Techcombank, ACB: ACB...)
-    accountNo: "109876543210",    // Số tài khoản ngân hàng của bạn
+    bankId: "VCB",               // Mã ngân hàng (VCB, MB, ICB, TCB, ACB...)
+    accountNo: "0123456789",      // Số tài khoản của bạn
     accountName: "NGUYEN VAN A",  // Tên chủ tài khoản (viết hoa không dấu)
   },
 
-  // Cấu hình Két Sắt AI
+  // 2. Cấu hình Két Sắt AI - SỐ LIỆU THẬT
   vault: {
-    initialAmount: 1500000,      // Tiền khởi điểm trong két (VNĐ)
-    pricePerAttempt: 10000,      // Giá 1 lần gửi câu hỏi thách đố (VNĐ)
-    rewardSharePercent: 50,      // 50% tiền vé nạp sẽ cộng dồn vào két sắt
-    botName: "NEXUS-V",          // Tên Robot bảo vệ két
+    initialAmount: 0,            // Vốn ban đầu bạn bỏ vào két (để 0đ nếu bắt đầu từ số 0)
+    pricePerAttempt: 10000,      // Giá vé 1 lần thách đố bẻ khóa (10.000đ)
+    rewardSharePercent: 50,      // 50% tiền vé nạp được cộng dồn vào két
+    botName: "NEXUS-V",          // Tên Robot bảo vệ
   },
 
-  // Cấu hình Dịch vụ Tạo Website 60s
+  // 3. Cấu hình Tiệm Website 60s
   webBuilder: {
-    price: 49000,                // Giá tạo 1 website (VNĐ)
-    durationSeconds: 60,         // Thời gian đếm ngược hoàn thành (giây)
-  }
+    price: 49000,                // Giá tạo 1 website (49.000đ)
+    durationSeconds: 60,         // Thời gian hoàn thành
+  },
+
+  // 4. API Backend Đồng Bộ Số Liệu Thật (Cloudflare Worker / Serverless)
+  // Nếu chưa có server, hệ thống sẽ lưu trữ phiên thật trên thiết bị
+  apiEndpoint: "" 
 };
